@@ -12,4 +12,7 @@ students_router.post('/students', controller.CreateStudent);
 students_router.put('/students/:n_z', controller.UpdateStudent);
 
 students_router.delete('/students/:n_z', controller.DeleteStudent);
+
+students_router.get('/jija', controller.jija);
+
 export default students_router;

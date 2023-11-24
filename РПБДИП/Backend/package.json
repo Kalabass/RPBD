@@ -20,6 +20,7 @@
     "dev": "npx nodemon -w *.ts -w .env ./src/index.ts"
   },
   "devDependencies": {
-    "@types/pg": "^8.10.9"
+    "@types/pg": "^8.10.9",
+    "morgan": "^1.10.0"
   }
 }

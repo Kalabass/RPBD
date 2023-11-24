@@ -71,4 +71,15 @@ export class StudentController{
             return res.status(400).json({message : "pzdc"});
         }
     }
+
+    async jija(req: Request<IRequestParams,{},IRequestBody>, res: Response){
+        console.log('1');
+        try {
+            const student = await pool.query(`select * from users;`); 
+            return res.status(200).json(student.rows[0]);
+        } catch (e) {
+            console.log(e);
+            return res.status(400).json({message : "pzdc"});
+        }
+    }
 }

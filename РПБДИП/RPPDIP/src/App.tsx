@@ -1,9 +1,8 @@
-import MainPage from "./MainPage"
-
+import MainPage from "./components/MainPage.tsx"
 
 function App() {
   return (
-    <MainPage></MainPage>
+    <MainPage/>
   )
 }
 
