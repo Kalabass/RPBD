@@ -1,35 +1,46 @@
 --CRUD - READ
+drop function getUsers()
+
 CREATE OR REPLACE FUNCTION getUsers()
 RETURNS Table (
 	id int,
 	role_id int,
 	name varchar,
-	is_active boolean
+	is_active boolean,
+	role_name varchar
 )
 AS $$
 BEGIN
-  RETURN query select * from users order by id;
+  RETURN query 
+  select u.*, r.role_name from users u
+  join roles r on u.role_id = r.id
+  order by u.id;
 END;
 $$ LANGUAGE plpgsql;
 
+drop function  getUsers(user_id integer)
+ 
 CREATE OR REPLACE FUNCTION getUsers(user_id integer)
 RETURNS Table (
 	id int,
 	role_id int,
 	name varchar,
-	is_active boolean
+	is_active boolean,
+	role_name varchar
 )
 AS $$
 BEGIN
-  RETURN query select * 
-  	from users
-	where users.id = user_id
+  RETURN query 
+  select u.*, r.role_name 
+  	from users u
+	join roles r on u.role_id = r.id
+	where u.id = user_id
 	order by id;
 END;
 $$ LANGUAGE plpgsql;
 
 select * from getUsers();
-select * from getUsers(1);
+select * from getUsers(2);
 
 --CRUD - Create
 drop function addUser
@@ -52,7 +63,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-select * from addUser(1, 'ВАСИЛИЙ ПЕТРОВ', false);
+select * from addUser(1, 'ВАСИЛИЙ ЖОПОВ', false);
 
 --CRUD - DELETE
 drop function deleteUser

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import pool from "../db/db";
-import { IRequestBody, IRequestParams } from "../types/types";
+import { IRequestParams, IRequestUserBody } from "../types/types";
 
 export class UsersController{
-    async GetUsers(req: Request<IRequestParams, {}, IRequestBody>, res: Response){
+    async GetUsers(req: Request<IRequestParams, {}, IRequestUserBody>, res: Response){
         try {
             const users = await pool.query(`select * from getUsers();`);
             return res.status(200).json(users.rows);
@@ -13,7 +13,7 @@ export class UsersController{
         }
     }
 
-    async GetUsersById(req: Request<IRequestParams, {}, IRequestBody>, res: Response){
+    async GetUsersById(req: Request<IRequestParams, {}, IRequestUserBody>, res: Response){
         try {
             const user = await pool.query(`select * from getUsers(${req.params.id})`)
             return res.status(200).json(user.rows[0]);
@@ -23,7 +23,7 @@ export class UsersController{
         }
     }
 
-    async UpdateUser(req: Request<IRequestParams, {}, IRequestBody>, res: Response){
+    async UpdateUser(req: Request<IRequestParams, {}, IRequestUserBody>, res: Response){
         try {
             const {id, is_active, name, role_id} = req.body;
             const updatedUser = await pool.query('select * from update_user($1, $2, $3, $4, $5)', [req.params.id, id, role_id, name, is_active]);
@@ -34,7 +34,7 @@ export class UsersController{
         }
     }
 
-    async DeleteUser(req: Request<IRequestParams, {}, IRequestBody>, res: Response){
+    async DeleteUser(req: Request<IRequestParams, {}, IRequestUserBody>, res: Response){
         try {
             const deletedUser = await pool.query(`select * from deleteUser(${req.params.id})`);
             return res.status(200).json(deletedUser.rows[0]);
@@ -44,7 +44,7 @@ export class UsersController{
         }
     }
 
-    async CreateUser(req: Request<IRequestParams, {}, IRequestBody>, res: Response){
+    async CreateUser(req: Request<IRequestParams, {}, IRequestUserBody>, res: Response){
         try {
             const { role_id, name, is_active } = req.body;
             console.log(req.body);
@@ -58,16 +58,6 @@ export class UsersController{
         } catch (e) {
             console.log(e);
             return res.status(400).json({ message: "error during creating user" });
-        }
-    }
-    
-
-    async popa(req: Request<IRequestParams, {}, IRequestBody>, res: Response){
-        try {
-            
-        } catch (e) {
-            console.log(e);
-            return res.status(400).json({message : "error during"})
         }
     }
 }
