@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 const StyledHeaderUpper = styled.div`
     text-align: center;
-    font-size: 20px;
+    font-size: 40px;
     height: 20%;
     cursor: pointer;
 `

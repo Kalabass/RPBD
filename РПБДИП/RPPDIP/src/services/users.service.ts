@@ -23,6 +23,8 @@ class UsersService {
     async create(user: IUserBody){
         return axios.post<IUser>(this.URL, user);
     }
+
+
 }
 
 export default new UsersService()

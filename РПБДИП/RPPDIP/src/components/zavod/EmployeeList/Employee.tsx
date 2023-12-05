@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { IUser } from "../../../interfaces/app.interfaces";
 import { useCurrentUserStore } from "../../../stores/CurrentUserStore";
+import { useCurrentRoomStore } from "../../../stores/current.room.store";
 
 interface IEmployeeWrapperProps {
     bgColor: string
@@ -35,9 +36,19 @@ const EmployeePart = styled.div<IEmployeePartProps>`
 const Employee:React.FC<IUserComponentProps> = ({id, is_active, name, role_name, role_id, bgColor}) => {
 
     const {userChange} = useCurrentUserStore();
+    const {currentRoom} = useCurrentRoomStore();
+
+    const OnClickHandler = () => {
+        if(currentRoom?.id != undefined){
+            alert('сначала выйдите из комнаты!')
+            return;
+        }
+        
+        userChange({id, is_active, name, role_name, role_id})
+    }
 
     return (
-        <EmployeeWrapper bgColor={bgColor} onClick={ () => userChange({id, is_active, name, role_name, role_id})}>
+        <EmployeeWrapper bgColor={bgColor} onClick={OnClickHandler}>
             <EmployeePart width="30px" >{id}</EmployeePart>
             <a>|</a>
             <EmployeePart width = "150px">{name} </EmployeePart>

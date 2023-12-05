@@ -3,6 +3,7 @@ import { IUser } from "../../interfaces/app.interfaces";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import usersService from "../../services/users.service";
 
+
 const StyledEmployee = styled.div`
     display:flex;
     flex-direction: row;
@@ -43,7 +44,11 @@ const EmploeeButton = styled.button<IEmploeeButtonProps>`
     cursor: pointer;    
 `
 
-const Employee:React.FC<IUser> = ({id, is_active, name, role_name}) => {
+interface IEmployeeProps extends IUser{
+    onClick: () => void;
+}
+
+const Employee:React.FC<IEmployeeProps> = ({id, name, role_name, onClick}) => {
 
     const queryClient = useQueryClient();
 
@@ -66,10 +71,10 @@ const Employee:React.FC<IUser> = ({id, is_active, name, role_name}) => {
             <EmploeePart>{id}</EmploeePart>
             <EmploeePart>{name}</EmploeePart>
             <EmploeePart>{role_name}</EmploeePart>
-            <EmploeePart>{`${is_active}`}</EmploeePart>
+            <EmploeePart>-_-</EmploeePart>
             <EmploeePartButtonsContainer>
                 <EmploeeButton color="#a0203a" onClick = {DeleteOnClickHandler}>удалить</EmploeeButton>
-                <EmploeeButton color="#40868c">инфо</EmploeeButton>
+                <EmploeeButton color="#40868c" onClick={onClick}>инфо</EmploeeButton>
             </EmploeePartButtonsContainer>
         </StyledEmployee>
         

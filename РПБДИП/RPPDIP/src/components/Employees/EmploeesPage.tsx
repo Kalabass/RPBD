@@ -9,6 +9,7 @@ const EmployeePageWrapper = styled.div`
 const EmploeesPage:React.FC = () => {
     return (
         <EmployeePageWrapper>
+
             {/* <EmployeeCreation/> */}
             <EmployeesList/>
         </EmployeePageWrapper>
