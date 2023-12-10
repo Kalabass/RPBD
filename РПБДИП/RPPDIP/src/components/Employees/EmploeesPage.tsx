@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import EmployeesList from "./EmployeesList";
+import Header from "../Header/Header";
 
 const EmployeePageWrapper = styled.div`
     width: 90%;
@@ -8,11 +9,12 @@ const EmployeePageWrapper = styled.div`
 
 const EmploeesPage:React.FC = () => {
     return (
-        <EmployeePageWrapper>
-
-            {/* <EmployeeCreation/> */}
-            <EmployeesList/>
-        </EmployeePageWrapper>
+        <>
+            <Header/>
+            <EmployeePageWrapper>
+                <EmployeesList/>
+            </EmployeePageWrapper>
+        </>
     );
 };
 

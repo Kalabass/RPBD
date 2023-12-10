@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { useUsers } from "../../hooks/useUsers";
 import Employee from "./Employee";
 import EmploeesHeader from "./EmploeesHeader";
-import Modal from "./Modal";
+import Modal from "./Modal/Modal";
 import { useState } from "react";
+import EmployeeCreation from "./EmployeeCreation";
+import { useCurrentUserModalStore } from "../../stores/current.user.modal";
+import { IUser } from "../../interfaces/app.interfaces";
 
 const EmployeesListWrapper = styled.div`
     display: flex;
@@ -16,8 +19,11 @@ const EmployeesList:React.FC = () => {
 
     const [isModalShow, setIsModalShow] = useState<boolean>(false);
 
-    const ModalOpen = () => {
+    const {userChange} = useCurrentUserModalStore();
+
+    const ModalOpen = (user: IUser) => {
         setIsModalShow(true);
+        userChange(user);
     }
 
     const ModalCLose = () => {
@@ -27,12 +33,13 @@ const EmployeesList:React.FC = () => {
     return (
         <EmployeesListWrapper>
             {isModalShow && <Modal onClick={ModalCLose} isShow = {true}></Modal>}
+            <EmployeeCreation/>
             <EmploeesHeader></EmploeesHeader>
             {isLoading ? (
                 <div>Loading...</div>
             ) : data?.length ? (
                 data.map((user) => (
-                    <Employee onClick = {ModalOpen} key={user.id} {...user}></Employee>
+                    <Employee modalOpen = {ModalOpen} key={user.id} {...user}></Employee>
                 ))
             ): (
                 <div> NotFound....</div>

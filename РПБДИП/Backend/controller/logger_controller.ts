@@ -12,16 +12,20 @@ export class LoggerController{
             return res.status(400).json({message : "error during getting logs"})
         }
     }
+
     async AddLog(req: Request<IRequestParams, {}, IRequestLoggerBody>, res: Response){
         try {
             const {user_id, room_id, enter_time} = req.body;
             const log = await pool.query('select * from add_new_log($1, $2, $3);', [user_id, room_id, enter_time]);
             return res.status(200).json(log.rows[0]);
         } catch (e) {
-            console.log(e);
+            if(e.message === "User does not have access to the room"){
+                return res.status(403).json({message : "User does not have access to the room"})
+            }
             return res.status(400).json({message : "error during creating log"})
         }
     }
+
     async AddExitLog(req: Request<IRequestParams, {}, IRequestLoggerBody>, res: Response){
         try {
             const {user_id, exit_time} = req.body;

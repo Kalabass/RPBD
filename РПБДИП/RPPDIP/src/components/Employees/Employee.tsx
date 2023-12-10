@@ -27,7 +27,7 @@ const EmploeePartButtonsContainer = styled.div`
     border: 1px solid #40868c;
     color: white;
     width: 100%;
-    height: 60px;
+    height: 40px;
     display: flex;
     align-items: center; 
     justify-content: space-evenly; 
@@ -45,10 +45,15 @@ const EmploeeButton = styled.button<IEmploeeButtonProps>`
 `
 
 interface IEmployeeProps extends IUser{
-    onClick: () => void;
+    modalOpen: (user:IUser) => void;
 }
 
-const Employee:React.FC<IEmployeeProps> = ({id, name, role_name, onClick}) => {
+const RoleDictionary: Record<string, string> = {
+    'ADMIN' : 'Админ',
+    'EMPLOYEE' : 'Рабочий'
+}
+
+const Employee:React.FC<IEmployeeProps> = ({id, mail, name, role_name, modalOpen}) => {
 
     const queryClient = useQueryClient();
 
@@ -63,18 +68,21 @@ const Employee:React.FC<IEmployeeProps> = ({id, name, role_name, onClick}) => {
     const DeleteOnClickHandler =  () => {
         if(id != undefined)
             mutation.mutate(id);
-       
+    }
+
+    const InfoOnClickHandler = () => {
+        modalOpen({id, name, role_name, mail});
     }
 
     return (
         <StyledEmployee>
             <EmploeePart>{id}</EmploeePart>
             <EmploeePart>{name}</EmploeePart>
-            <EmploeePart>{role_name}</EmploeePart>
-            <EmploeePart>-_-</EmploeePart>
+            <EmploeePart>{role_name != undefined ? RoleDictionary[role_name] : "error"}</EmploeePart>
+            <EmploeePart>{mail}</EmploeePart>
             <EmploeePartButtonsContainer>
                 <EmploeeButton color="#a0203a" onClick = {DeleteOnClickHandler}>удалить</EmploeeButton>
-                <EmploeeButton color="#40868c" onClick={onClick}>инфо</EmploeeButton>
+                <EmploeeButton color="#40868c" onClick={InfoOnClickHandler}>инфо</EmploeeButton>
             </EmploeePartButtonsContainer>
         </StyledEmployee>
         

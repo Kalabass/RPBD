@@ -2,47 +2,44 @@ import Employee from "./Employee";
 import styled from "styled-components";
 import { useUsers } from "../../../hooks/useUsers";
 import { useCurrentUserStore } from "../../../stores/CurrentUserStore";
+import { useAuthUser } from "../../../hooks/useAuthorizedUser";
 
 const EmployeesListContainer = styled.div`
     margin: 10px;
-    border-radius: 8px;
-    background-color: #464343;
-    background-color: #c8a98f;
+    border-radius: 7px;
+    border: 2px solid #40868c;
+    background-color: rgb(53, 53, 53);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 20px;
+    color: white;
 `
 
-// const EmployeesListHeader = styled.div`
-//     height: 3%;
-//     width: 100%;    
-//     margin-bottom: 5px;
-//     border-top-right-radius: 8px;
-//     border-top-left-radius: 8px;
-//     border-bottom: 2px solid rgb(42, 42, 42);
-// `
 
 const EmployeesList:React.FC = () => {
     const {isLoading, data} = useUsers();
     const {currentUser} = useCurrentUserStore();
 
+    const roleId = useAuthUser().data?.role_id;
 
     return (
-        <EmployeesListContainer>
-            {/* <EmployeesListHeader/> */}
-                {isLoading ? (
-                    <div>loading...</div>
-                ) :data?.length ? (
-                    data.map((user) => (
-                            <Employee key={user.id} {...user} bgColor={currentUser?.id === user.id ? "#40868c" : "#987654"} />  
-                    ))
-                ) : (
-                    <div>NotFound...</div>
-                )
-            }
-        </EmployeesListContainer>
+        <>
+            {roleId == 1 ? <EmployeesListContainer>
+                {/* <EmployeesListHeader/> */}
+                    {isLoading ? (
+                        <div>loading...</div>
+                    ) :data?.length ? (
+                        data.map((user) => (
+                            <Employee key={user.id} {...user} bgColor={currentUser?.id === user.id ? "#40868c" : "rgb(36, 36, 36)"} />  
+                        ))
+                    ) : (
+                        <div>NotFound...</div>
+                    )
+                }
+            </EmployeesListContainer>: <></>}
+        </>
     );
 };
 

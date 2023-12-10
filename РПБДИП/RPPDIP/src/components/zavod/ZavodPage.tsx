@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import EmployeesList from "./EmployeeList/EmployeesList";
 import RoomsContainer from "./Rooms/RoomsContainer";
+import Header from "../Header/Header";
 
 const Wrapper = styled.div`
     display: flex;
@@ -9,10 +10,14 @@ const Wrapper = styled.div`
 
 const ZavodPage:React.FC = () => {
     return (
-        <Wrapper>
-            <EmployeesList/>
-            <RoomsContainer/>
-        </Wrapper>
+        <>        
+            <Header/>
+            <Wrapper>
+                <EmployeesList/>
+                <RoomsContainer/>
+            </Wrapper>
+        </>
+
     );
 };
 

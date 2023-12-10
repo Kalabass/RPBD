@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { useAuthUser } from "../../hooks/useAuthorizedUser"
 
 const StyledHeaderUpper = styled.div`
     text-align: center;
@@ -31,22 +32,40 @@ const StyledButton = styled.button`
     cursor: pointer;
 `
 
+const StyledExitButton = styled.button`
+    position: absolute;
+    margin-left: 95%;
+    margin-top: 20px;
+    font-size: 20px;
+    background-color: black;
+    border: none;
+    color: white;
+    cursor: pointer;
+`
+
 const Header:React.FC = () => {
     const navigate = useNavigate();
+
+    const {data} = useAuthUser();
+
     return (
         <StyledHeader>
+            <StyledExitButton onClick={() => navigate('/auth')}>выйти</StyledExitButton>
             <StyledHeaderUpper onClick={() => navigate('/main')}>
                 <div>ZAVOD</div>
             </StyledHeaderUpper>
-            <StyledHeaderLower>
+
+            {data?.role_id == 1 && <StyledHeaderLower>
                 <StyledButton onClick={() => navigate('/main')}>главная</StyledButton>
                 <a>|</a>
                 <StyledButton onClick={() => navigate('/logs')}> логи</StyledButton>
                 <a>|</a>
-                <StyledButton>инциденты</StyledButton>
+                <StyledButton onClick={() => navigate('/incidents')}>инциденты</StyledButton>
                 <a>|</a>
                 <StyledButton  onClick={() => navigate('/users')}>рабочие</StyledButton>
-            </StyledHeaderLower>
+                <a>|</a>
+                <StyledButton  onClick={() => navigate('/requests')}> Запросы</StyledButton>
+            </StyledHeaderLower>}
         </StyledHeader>
     );
 };

@@ -1,17 +1,14 @@
 import { useRooms } from "../../../hooks/useRooms";
+import Modal from "../modal/Modal";
 import Room from "./Room";
 import styled from "styled-components";
 
 const StyledRoomContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
 
-    align-items: center;
-
-    border: 1px solid black;
-    margin: 10px;
-    
+    margin: 10px;   
 `
 
 const RoomsContainer:React.FC = () => {
@@ -19,19 +16,22 @@ const RoomsContainer:React.FC = () => {
     const {isLoading, data} = useRooms();
 
     return (
-        <StyledRoomContainer>
-            {
-                isLoading ? (
-                    <div>Loading....</div>
-                ) : data?.length ? (
-                    data.map((room) => (
-                        <Room id = {room.id} {...room}></Room>
-                    ))
-                ) : (
-                    <div>NotFound...</div>
-                )
-            }
-        </StyledRoomContainer>
+        <>
+            <Modal/>
+            <StyledRoomContainer>
+                {
+                    isLoading ? (
+                        <div>Loading....</div>
+                    ) : data?.length ? (
+                        data.map((room) => (
+                            <Room key = {room.id} id = {room.id} {...room}></Room>
+                        ))
+                    ) : (
+                        <div>NotFound...</div>
+                    )
+                }
+            </StyledRoomContainer>
+        </>
     );
 };
 

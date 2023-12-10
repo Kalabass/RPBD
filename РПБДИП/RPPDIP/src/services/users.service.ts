@@ -24,6 +24,17 @@ class UsersService {
         return axios.post<IUser>(this.URL, user);
     }
 
+    async registration(user: IUserBody){
+        return axios.post(`${this.URL}/registration`, user, { withCredentials: true })
+    }
+
+    async login(user: IUserBody){
+        return axios.post(`${this.URL}/login`, user, { withCredentials: true })
+    }
+
+    async GetByToken(){
+        return axios.get<IUser>('http://localhost:9009/api/userstokens', { withCredentials: true });
+    }
 
 }
 

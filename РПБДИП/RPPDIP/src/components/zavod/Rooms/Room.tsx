@@ -5,6 +5,7 @@ import { useCurrentUserStore } from "../../../stores/CurrentUserStore";
 import logsService from "../../../services/logs.service";
 import { useCurrentRoomStore } from "../../../stores/current.room.store";
 import { useEffect, useState } from "react";
+import { useAccessModalStore } from "../../../stores/access.modal.store";
 
 const StyledRoom = styled.div`
     width: 170px;
@@ -15,8 +16,6 @@ const StyledRoom = styled.div`
     align-items: center; 
     justify-content: center; 
     border: 1px solid black;
-
-    cursor: pointer;
 `
 
 const StyledButton = styled.button`
@@ -24,6 +23,7 @@ const StyledButton = styled.button`
     background-color: #40868c;
     padding: 5px;
     border-radius: 7px;
+    cursor: pointer;
 `
 
 const StyledButtonsContainer = styled.div`
@@ -36,6 +36,8 @@ const Room:React.FC<IRoom> = ({ id, name, max_duration}) => {
 
     const {currentUser} = useCurrentUserStore();
     const {currentRoom, roomChange} = useCurrentRoomStore();
+    const {isShown, setIsShown, room , setRoom} = useAccessModalStore();
+
 
     useEffect(() => {
         switch (currentRoom?.id){
@@ -58,14 +60,20 @@ const Room:React.FC<IRoom> = ({ id, name, max_duration}) => {
     }, [currentRoom])
     
 
-
-
     const [isEnterDisabled, setIsEnterDisabled] = useState<boolean>(false);
     const [isExitDisabled, setIsExitDisabled] = useState<boolean>(true);
+
+    const onErrorHandler = (error: Error) => {
+        setRoom({id: id, name: name});
+        setIsShown(true);
+        console.log(error.response.data.message);
+    }
 
     const enterMutation = useMutation({
        mutationFn: () => logsService.AddLog({user_id: currentUser?.id, room_id: id, enter_time: new Date()}),
        mutationKey: ['create log'],
+       onError: (error) => onErrorHandler(error),
+       onSuccess: () =>  roomChange({id, name, max_duration})
     })
 
     const leaveMutation = useMutation({
@@ -75,7 +83,6 @@ const Room:React.FC<IRoom> = ({ id, name, max_duration}) => {
 
     const onclickHandlerEnter = () => {
         enterMutation.mutate();
-        roomChange({id, name, max_duration});
     }
 
     const onclickHandlerExit = () => {
@@ -95,8 +102,8 @@ const Room:React.FC<IRoom> = ({ id, name, max_duration}) => {
                 {`${max_duration} ч.`}
             </div>
             <StyledButtonsContainer>
-                <StyledButton disabled ={isEnterDisabled} onClick={onclickHandlerEnter}>enter</StyledButton>
-                <StyledButton disabled ={isExitDisabled} onClick={onclickHandlerExit}>exit</StyledButton>
+                <StyledButton disabled ={isEnterDisabled} onClick={onclickHandlerEnter}>Вход</StyledButton>
+                <StyledButton disabled ={isExitDisabled} onClick={onclickHandlerExit}>Выход</StyledButton>
             </StyledButtonsContainer>
         </StyledRoom>
     );

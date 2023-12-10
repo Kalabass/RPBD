@@ -1,11 +1,12 @@
 --CRUD ROOMS
 --CREATE
 --READ
+drop function getRooms()
 CREATE OR REPLACE FUNCTION getRooms()
 RETURNS Table (
 	id int,
 	name varchar,
-	max_duration int
+	max_duration numeric
 )
 AS $$
 BEGIN

@@ -54,8 +54,6 @@ const Employee:React.FC<IUserComponentProps> = ({id, is_active, name, role_name,
             <EmployeePart width = "150px">{name} </EmployeePart>
             <a>|</a>
             <EmployeePart width = "150px">{role_name} </EmployeePart>
-            <a>|</a>
-            <input type="checkbox" checked = {is_active}></input>
         </EmployeeWrapper>
     );
 };
