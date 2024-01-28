@@ -22,6 +22,9 @@ export class LoggerController{
             if(e.message === "User does not have access to the room"){
                 return res.status(403).json({message : "User does not have access to the room"})
             }
+            if(e.message === "С 11 до 13 проход запрещен"){
+                return res.status(403).json({message : "С 11 до 13 проход запрещен"})
+            }
             return res.status(400).json({message : "error during creating log"})
         }
     }

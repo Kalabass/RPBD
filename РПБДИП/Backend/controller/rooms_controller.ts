@@ -22,13 +22,4 @@ export class RoomsController{
             return res.status(400).json({message : "error during getting rooms"})
         }
     }
-
-    async popa(req: Request<IRequestParams, {}, IRequestRoomBody>, res: Response){
-        try {
-            
-        } catch (e) {
-            console.log(e);
-            return res.status(400).json({message : "error during"})
-        }
-    }
 }

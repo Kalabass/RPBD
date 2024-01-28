@@ -64,9 +64,12 @@ const Room:React.FC<IRoom> = ({ id, name, max_duration}) => {
     const [isExitDisabled, setIsExitDisabled] = useState<boolean>(true);
 
     const onErrorHandler = (error: Error) => {
+        if(error.response.data.message == "С 11 до 13 проход запрещен"){
+            alert(error.response.data.message);
+            return;
+        }
         setRoom({id: id, name: name});
         setIsShown(true);
-        console.log(error.response.data.message);
     }
 
     const enterMutation = useMutation({
